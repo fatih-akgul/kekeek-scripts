@@ -1,0 +1,22 @@
+{
+  "name": "travel-db",
+  "version": "1.0.0",
+  "description": "Travel DB scripts",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fatih Akgul",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "fs-extra": "^8.1.0",
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.4.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}

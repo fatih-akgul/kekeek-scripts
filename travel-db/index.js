@@ -18,11 +18,6 @@ const connection = mysql.createConnection({
   database: process.env.DB_DATABASE
 });
 
-const rootDir = process.env.DIR_OUTPUT;
-if (rootDir) {
-  fs.removeSync(rootDir);
-}
-
 const processCategory = (categoryId, parents) => {
   connection.query(SQL_CHILD_CATEGORIES, [categoryId], (error, childCategories, fields) => {
     if (error) {
@@ -30,7 +25,7 @@ const processCategory = (categoryId, parents) => {
     }
 
     for (const childCategory of childCategories) {
-      const identifier = childCategory.fileName.replace(/_/g, '-');
+      const identifier = cleanIdentifier(childCategory.fileName);
       console.log(`Category ${identifier}: ${childCategory.title} (${childCategory.child_order})`);
 
       const newParents = parents.slice(0);
@@ -63,7 +58,7 @@ const processCategoryPages = (categoryId, parents) => {
     }
 
     for (const page of pages) {
-      const identifier = page.fileName.replace(/_/g, '-');
+      const identifier = cleanIdentifier(page.fileName);
       console.log(`Page ${identifier}: ${page.title} (${page.page_order})`);
 
       const newParents = parents.slice(0);
@@ -92,4 +87,12 @@ const cleanContentText = (text) => {
     .replace(/`/g, `'`);
 };
 
+const cleanIdentifier = (identifier) => {
+  return identifier.replace(/_/g, '-');
+};
+
+const rootDir = process.env.DIR_OUTPUT;
+if (rootDir) {
+  fs.removeSync(rootDir);
+}
 processCategory(0, [rootDir]);

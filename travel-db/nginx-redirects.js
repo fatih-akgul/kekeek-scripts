@@ -19,7 +19,7 @@ const connection = mysql.createConnection({
 
 const processCustom = () => {
   for (const oldArticleIdentifier in CUSTOM_ARTICLE_MAPPINGS) {
-    console.log(`rewrite ^/travel_turkey_${oldArticleIdentifier}$ /${cleanIdentifier(CUSTOM_ARTICLE_MAPPINGS[oldArticleIdentifier])} permanent;`)
+    console.log(`rewrite ^/${process.env.CATEGORY_PREFIX}${oldArticleIdentifier}$ /${cleanIdentifier(CUSTOM_ARTICLE_MAPPINGS[oldArticleIdentifier])} permanent;`)
   }
 };
 
@@ -31,7 +31,9 @@ const processDatabase = (query, prefix) => {
 
     for (const result of results) {
       const identifier = result.fileName;
-      console.log(`rewrite ^/${prefix}${identifier}$ /${cleanIdentifier(identifier)} permanent;`)
+      if (identifier.includes('_')) {
+        console.log(`rewrite ^/${prefix}${identifier}$ /${cleanIdentifier(identifier)} permanent;`);
+      }
     }
   });
 };
@@ -41,5 +43,5 @@ const cleanIdentifier = (identifier) => {
 };
 
 processCustom();
-processDatabase(SQL_CATEGORIES, 'travel_turkey_');
-processDatabase(SQL_PAGES, 'turkey_');
+processDatabase(SQL_CATEGORIES, process.env.CATEGORY_PREFIX);
+processDatabase(SQL_PAGES, process.env.PAGE_PREFIX);

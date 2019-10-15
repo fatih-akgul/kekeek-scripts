@@ -6,6 +6,7 @@
   "scripts": {
     "legacy-to-files": "node legacy-to-files",
     "nginx-redirects": "node nginx-redirects",
+    "inc-to-html": "node inc-to-html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fatih Akgul",
